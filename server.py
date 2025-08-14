@@ -8,16 +8,18 @@ def render_index_page():
     return render_template('index.html')
 
 @app.route("/emotionDetector")
-def sent_analyzer():
+def emotion_analyser():
     # Retrieve the text to analyze from the request arguments
     text_to_analyze = request.args.get('textToAnalyze')
 
-    # Pass the text to the sentiment_analyzer function and store the response
+    # Pass the text to the emotion detector function and store the response
     response = emotion_detector(text_to_analyze)
-
-    formatted_text = "\n".join(f"{key} : {value}" for key, value in response.items())
-
-    return "For the give statement, the system response is {}.".format(formatted_text)
+    
+    if response.get('dominant_emotion') is None:
+        return "Invalid text! Please try again!."
+    else: 
+        formatted_text = "\n".join(f"{key} : {value}" for key, value in response.items())
+        return "For the give statement, the system response is {}.".format(formatted_text)    
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)   
