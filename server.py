@@ -15,7 +15,9 @@ def sent_analyzer():
     # Pass the text to the sentiment_analyzer function and store the response
     response = emotion_detector(text_to_analyze)
 
-    return response
+    formatted_text = "\n".join(f"{key} : {value}" for key, value in response.items())
+
+    return "For the give statement, the system response is {}.".format(formatted_text)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)   
